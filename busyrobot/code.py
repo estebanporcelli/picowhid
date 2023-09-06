@@ -128,6 +128,7 @@ def openUrl():
     layout.write("exit\n")
     
 def openChrome():
+    print("open chrome and read page")
     kbd.send(Keycode.WINDOWS)
     sleepShort()
     layout.write("chrome\n")
@@ -140,12 +141,107 @@ def openChrome():
     kbd.send(Keycode.ENTER)
     sleepRnd()
     readPage()
+    
     kbd.send(Keycode.CONTROL, Keycode.A)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.C)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.W)
     sleepRnd()
+    
+def copyChromeContent():
+    print("copy chrome content")
+    kbd.send(Keycode.WINDOWS)
+    sleepShort()
+    layout.write("chrome")
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    sleepRnd()
+    kbd.send(Keycode.CONTROL, Keycode.T)
+    sleepShort()
+    sleepShort()
+    url = urls[random.randrange(len(urls))];
+    layout.write(url)
+    sleepShort()
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    time.sleep(5) #wait for page to load
+    kbd.send(Keycode.CONTROL, Keycode.A)
+    sleepShort()
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.C)
+    sleepShort()
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.C)
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.W)
+    sleepShort()
+    
+def vsCodeFind():
+    print("find text vs code")
+    kbd.send(Keycode.HOME)
+    text = [chr(i) for i in range(97,123)]
+    kbd.send(Keycode.CONTROL, Keycode.F)
+    sleepShort()
+    layout.write(text[random.randrange(len(text))])
+    for x in range(0,random.randint(0,20)):
+        kbd.send(Keycode.ENTER)
+        sleepRnd()
+    kbd.send(Keycode.ESCAPE)
+    sleepShort()
+
+def copyWord():
+    print("copy word")
+    kbd.send(Keycode.CONTROL,Keycode.SHIFT, Keycode.RIGHT_ARROW)
+    sleepShort()
+    kbd.send(Keycode.CONTROL,Keycode.C)
+    sleepShort()
+    kbd.send(Keycode.ESCAPE)
+    sleepRnd()
+
+def paste():
+    print("paste")
+    newLine()
+    kbd.send(Keycode.CONTROL, Keycode.V)
+    sleepShort()    
+
+def newLine():
+    print("newLine")
+    kbd.send(Keycode.ENTER)
+    kbd.send(Keycode.ENTER)
+    kbd.send(Keycode.UP_ARROW)
+    sleepShort()       
+    
+def randomVsCommands():
+    print("random vs code commands")
+    vscommands = [readPage, vsCodeFind, copyWord, paste, newLine]
+    for k in range(0,random.randrange(10)):
+        vscommands[random.randrange(len(vscommands))]()
+    
+def openVsCode():
+    print("open vs code")
+    copyChromeContent()
+    
+    kbd.send(Keycode.WINDOWS)
+    sleepShort()
+    layout.write("code")
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    sleepRnd()
+    kbd.send(Keycode.ESCAPE)
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.N)
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.V)
+    sleepRnd()
+    
+    randomVsCommands()
+    
+    sleepRnd()
+    kbd.send(Keycode.CONTROL, Keycode.W)
+    sleepShort()
+    kbd.send(Keycode.ALT, Keycode.N)
+    sleepShort()
     
 def pageUpOrDown():
     print("pageUpOrDown")
@@ -183,8 +279,13 @@ def runLastCommand():
     layout.write("cmd")
     sleepShort()
     kbd.send(Keycode.ENTER)
+    sleepRnd()
+    layout.write("echo run for ")
     sleepShort()
-    layout.write("echo run for " + str((time.time() - startTime)/60) + " minutes")
+    layout.write(str((time.time() - startTime)/60))
+    sleepShort()
+    layout.write(" minutes")
+    sleepShort()
     kbd.send(Keycode.ENTER)
     sleepShort()
     layout.write("echo The end")
@@ -192,10 +293,11 @@ def runLastCommand():
     sleepShort() 
     
     
-urls = ["https://github.com/features/issues","https://harness.io/blog"]
+urls = ["https://github.com/features/issues","https://harness.io/blog","https://aws.amazon.com","https://learn.microsoft.com/en-us/azure/",
+"https://finact.britive-app.com/login","https://maven.apache.org/","https://www.java.com/en/download/help/index.html"]
 
-commands = [ openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
-#commands = [ openChrome ]
+commands = [ openVsCode, openVsCode, openVsCode, openVsCode, openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
+commands = [ openVsCode ]
 
 startTime = time.time()
 
