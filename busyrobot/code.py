@@ -176,6 +176,9 @@ def copyChromeContent():
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.W)
     sleepShort()
+    sleepShort()
+    sleepShort()
+    sleepShort()
     
 def vsCodeFind():
     print("find text vs code")
@@ -210,11 +213,27 @@ def newLine():
     kbd.send(Keycode.ENTER)
     kbd.send(Keycode.ENTER)
     kbd.send(Keycode.UP_ARROW)
-    sleepShort()       
+    sleepShort()
+
+def vsOpenTerminal():
+    print("open terminal")
+    kbd.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.P)
+    sleepShort()
+    layout.write("new terminal profile")
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    sleepShort()
+    layout.write("bash")
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    sleepShort()
+    layout.write("ls -a\n")
+    sleepRnd()
     
 def randomVsCommands():
     print("random vs code commands")
-    vscommands = [readPage, vsCodeFind, copyWord, paste, newLine]
+    vscommands = [readPage, vsCodeFind, copyWord, paste, newLine, vsOpenTerminal]
+    #vscommands = [vsOpenTerminal] # test single command
     for k in range(0,random.randrange(10)):
         vscommands[random.randrange(len(vscommands))]()
     
@@ -227,6 +246,7 @@ def openVsCode():
     layout.write("code")
     sleepShort()
     kbd.send(Keycode.ENTER)
+    sleepShort()
     sleepRnd()
     kbd.send(Keycode.ESCAPE)
     sleepShort()
@@ -297,7 +317,7 @@ urls = ["https://github.com/features/issues","https://harness.io/blog","https://
 "https://finact.britive-app.com/login","https://maven.apache.org/","https://www.java.com/en/download/help/index.html"]
 
 commands = [ openVsCode, openVsCode, openVsCode, openVsCode, openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
-commands = [ openVsCode ]
+commands = [ openVsCode ] # test single command
 
 startTime = time.time()
 
