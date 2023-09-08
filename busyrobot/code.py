@@ -215,6 +215,21 @@ def newLine():
     kbd.send(Keycode.UP_ARROW)
     sleepShort()
 
+
+def execShellCommands():
+    print("exec shell commands")
+    shellCommands = ["ls", "ls -a", "df", "df -h", "echo $(date)", "du","df", "uname","uname -a",
+    "ls | awk '{sum += 1 } END { print sum }'", "date | grep 'M'", "history", "history --help", 
+    "grep --help","printenv"]
+    
+    for n in range(0,random.randrange(4)):
+        shellCommand = shellCommands[random.randrange(len(shellCommands))]
+        layout.write(shellCommand)
+        sleepShort()
+        kbd.send(Keycode.ENTER)
+        sleepShort()
+    
+
 def vsOpenTerminal():
     print("open terminal")
     kbd.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.P)
@@ -227,8 +242,17 @@ def vsOpenTerminal():
     sleepShort()
     kbd.send(Keycode.ENTER)
     sleepShort()
-    layout.write("ls -a\n")
+    execShellCommands()
     sleepRnd()
+    layout.write("exit 0") # close this terminal window
+    sleepShort()
+    kbd.send(Keycode.ENTER)
+    sleepShort()
+    # return to editor
+    # show explorer
+    kbd.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.E)
+    sleepShort()
+    kbd.send(Keycode.CONTROL, Keycode.ONE) # go to editor 1
     
 def randomVsCommands():
     print("random vs code commands")
@@ -250,6 +274,10 @@ def openVsCode():
     sleepRnd()
     kbd.send(Keycode.ESCAPE)
     sleepShort()
+    sleepShort()
+    # show explorer
+    kbd.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.E)
+    # new text file
     kbd.send(Keycode.CONTROL, Keycode.N)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.V)
