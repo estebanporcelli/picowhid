@@ -64,7 +64,7 @@ def wheel():
 def mouseMove():
     print("moving mouse")
     for i in range(1, random.randint(5,25)):
-        mouse.move(x=i)
+        mouse.move(x=i, y=random.randrange(i))
         print("moved x... ", i)
         time.sleep(random.randint(10,80) / 100)
 
@@ -256,7 +256,7 @@ def vsOpenTerminal():
     
 def randomVsCommands():
     print("random vs code commands")
-    vscommands = [readPage, vsCodeFind, copyWord, paste, newLine, vsOpenTerminal]
+    vscommands = [readPage, vsCodeFind, copyWord, paste, newLine, vsOpenTerminal, rightClick, wheel, mouseMove]
     #vscommands = [vsOpenTerminal] # test single command
     for k in range(0,random.randrange(10)):
         vscommands[random.randrange(len(vscommands))]()
@@ -354,7 +354,7 @@ urls = ["https://github.com/features/issues",
 "continuous integration","javascript","docker documentation","jira","confluence","vs code","intellij"]
 
 commands = [ openVsCode, openVsCode, openVsCode, openVsCode, openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
-commands = [ openVsCode ] # test single command
+#commands = [ openVsCode ] # test single command
 
 startTime = time.time()
 
