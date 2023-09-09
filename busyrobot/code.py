@@ -341,8 +341,17 @@ def runLastCommand():
     sleepShort() 
     
     
-urls = ["https://github.com/features/issues","https://harness.io/blog","https://aws.amazon.com","https://learn.microsoft.com/en-us/azure/",
-"https://finact.britive-app.com/login","https://maven.apache.org/","https://www.java.com/en/download/help/index.html"]
+urls = ["https://github.com/features/issues",
+"https://harness.io/blog",
+"https://aws.amazon.com",
+"https://learn.microsoft.com/en-us/azure/",
+"https://maven.apache.org/",
+"https://www.java.com/en/download/help/index.html",
+"java","javaee","jenkins","spring","webservices","w3c html","kubernetes",
+"kubernetes hpa","kubernetes documentation"
+"harness ci","splunk","python","weblogic","jboss","websphere",
+"ibm mq documentation","linux","linux commands","oracle","oracle database","postgres db",
+"continuous integration","javascript","docker documentation","jira","confluence","vs code","intellij"]
 
 commands = [ openVsCode, openVsCode, openVsCode, openVsCode, openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
 commands = [ openVsCode ] # test single command
