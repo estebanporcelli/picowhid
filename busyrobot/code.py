@@ -107,7 +107,7 @@ def capsLockOn():
     print("caps on")
     if not kbd.led_on(Keyboard.LED_CAPS_LOCK):
         kbd.send(Keycode.CAPS_LOCK)
-        
+
 def openUrl():
     print("opening url")
     kbd.send(Keycode.WINDOWS)
@@ -126,12 +126,14 @@ def openUrl():
     kbd.send(Keycode.ALT, Keycode.TAB)
     sleepRnd()
     layout.write("exit\n")
-    
+
 def openChrome():
     print("open chrome and read page")
     kbd.send(Keycode.WINDOWS)
     sleepShort()
-    layout.write("chrome\n")
+    layout.write("chrome")
+    sleepShort()
+    kbd.send(Keycode.ENTER)
     sleepRnd()
     kbd.send(Keycode.CONTROL, Keycode.T)
     sleepRnd()
@@ -141,14 +143,14 @@ def openChrome():
     kbd.send(Keycode.ENTER)
     sleepRnd()
     readPage()
-    
+
     kbd.send(Keycode.CONTROL, Keycode.A)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.C)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.W)
     sleepRnd()
-    
+
 def copyChromeContent():
     print("copy chrome content")
     kbd.send(Keycode.WINDOWS)
@@ -179,7 +181,7 @@ def copyChromeContent():
     sleepShort()
     sleepShort()
     sleepShort()
-    
+
 def vsCodeFind():
     print("find text vs code")
     kbd.send(Keycode.HOME)
@@ -206,7 +208,7 @@ def paste():
     print("paste")
     newLine()
     kbd.send(Keycode.CONTROL, Keycode.V)
-    sleepShort()    
+    sleepShort()
 
 def newLine():
     print("newLine")
@@ -219,16 +221,16 @@ def newLine():
 def execShellCommands():
     print("exec shell commands")
     shellCommands = ["ls", "ls -a", "df", "df -h", "echo $(date)", "du","df", "uname","uname -a",
-    "ls | awk '{sum += 1 } END { print sum }'", "date | grep 'M'", "history", "history --help", 
+    "ls | awk '{sum += 1 } END { print sum }'", "date | grep 'M'", "history", "history --help",
     "grep --help","printenv"]
-    
+
     for n in range(0,random.randrange(4)):
         shellCommand = shellCommands[random.randrange(len(shellCommands))]
         layout.write(shellCommand)
         sleepShort()
         kbd.send(Keycode.ENTER)
         sleepShort()
-    
+
 
 def vsOpenTerminal():
     print("open terminal")
@@ -253,18 +255,18 @@ def vsOpenTerminal():
     kbd.send(Keycode.CONTROL, Keycode.SHIFT, Keycode.E)
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.ONE) # go to editor 1
-    
+
 def randomVsCommands():
     print("random vs code commands")
     vscommands = [readPage, vsCodeFind, copyWord, paste, newLine, vsOpenTerminal, rightClick, wheel, mouseMove]
     #vscommands = [vsOpenTerminal] # test single command
     for k in range(0,random.randrange(10)):
         vscommands[random.randrange(len(vscommands))]()
-    
+
 def openVsCode():
     print("open vs code")
     copyChromeContent()
-    
+
     kbd.send(Keycode.WINDOWS)
     sleepShort()
     layout.write("code")
@@ -282,44 +284,44 @@ def openVsCode():
     sleepShort()
     kbd.send(Keycode.CONTROL, Keycode.V)
     sleepRnd()
-    
+
     randomVsCommands()
-    
+
     sleepRnd()
     kbd.send(Keycode.CONTROL, Keycode.W)
     sleepShort()
     kbd.send(Keycode.ALT, Keycode.N)
     sleepShort()
-    
+
 def pageUpOrDown():
     print("pageUpOrDown")
     if random.randint(0,1):
         key = Keycode.PAGE_DOWN
     else:
         key = Keycode.PAGE_UP
-            
+
     for i in range(0,random.randint(0,10)):
         kbd.send(key)
         sleepRnd()
-        
+
 def arrowUpOrDown():
     print("arrowUpOrDown")
     if random.randint(0,1):
         key = Keycode.UP_ARROW
     else:
         key = Keycode.DOWN_ARROW
-            
+
     for i in range(0,random.randint(0,10)):
         kbd.send(key)
         sleepRnd()
-        
-    
+
+
 def readPage():
     print("read page")
     for i in range(0,random.randint(0,5)):
         readType = random.choice([pageUpOrDown, arrowUpOrDown, wheel])
-        readType() 
- 
+        readType()
+
 def runLastCommand():
     print("running last command")
     kbd.send(Keycode.WINDOWS)
@@ -338,9 +340,9 @@ def runLastCommand():
     sleepShort()
     layout.write("echo The end")
     kbd.send(Keycode.ENTER)
-    sleepShort() 
-    
-    
+    sleepShort()
+
+
 urls = ["https://github.com/features/issues",
 "https://harness.io/blog",
 "https://aws.amazon.com",
@@ -388,7 +390,7 @@ for j in range(len(commands)):
     print("index: ", cmdindex)
     print(str(commands[cmdindex]) + " - " + str(cmdindex))
     commands[cmdindex]()
-    
+
     sleepRnd()
 
 runLastCommand()
