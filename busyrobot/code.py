@@ -28,16 +28,44 @@ def blinkLed():
         time.sleep(0.2)
 
     led.value = False
-
+    
+def pausedLed():
+    led.value = False
+    time.sleep(0.2)
+    led.value = True
+    time.sleep(0.2)
+    led.value = False
+    time.sleep(0.2)
+    led.value = True
+    time.sleep(0.5)
+    led.value = False
+    time.sleep(0.2)
+    led.value = True
+    time.sleep(0.2)
+    led.value = False
+    time.sleep(0.2)
+    led.value = True
+        
 
 def sleepRnd():
     if test:
         secs = random.randint(1,5)
     else:
         secs = random.randint(60,200)
+    
+    print("sleepRnd: ", secs)
+    
+    sleepUntil = time.monotonic() + secs
+    
+    while time.monotonic() < sleepUntil:
+        #print("sleeping...")
+        if kbd.led_on(Keyboard.LED_CAPS_LOCK):
+            raise Exception("CAPS_LOCK ON: pause program")
+        led.value = True
+        time.sleep(.3)
+        led.value = False
+        time.sleep(.3)
 
-    print("sleep: ", secs)
-    time.sleep(secs)
 
 def sleepShort():
     time.sleep(random.randint(1,8)/10)
@@ -119,11 +147,17 @@ def openUrl():
     layout.write("alias start=xdg-open\n")
     time.sleep(1)
     url = urls[random.randrange(len(urls))];
-    layout.write("start " + url + "\n")
-    sleepRnd()
-    kbd.send(Keycode.CONTROL, Keycode.W)
-    sleepRnd()
-    kbd.send(Keycode.ALT, Keycode.TAB)
+    if "http" in url:
+        layout.write("start " + url + "\n")
+        sleepRnd()
+        kbd.send(Keycode.CONTROL, Keycode.W)
+        sleepRnd()
+        kbd.send(Keycode.ALT, Keycode.TAB)
+        sleepRnd()
+    else:
+        layout.write("echo " + url + "\n")
+        sleepRnd()
+        
     sleepRnd()
     layout.write("exit\n")
 
@@ -369,39 +403,60 @@ test = kbd.led_on(Keyboard.LED_CAPS_LOCK)
 
 
 print("-------------------------")
-print("Starting autonomous robot")
+print("Starting application")
 print("test: ", kbd.led_on(Keyboard.LED_CAPS_LOCK))
 
 
 capsLockOn()
-sleepRnd()
+time.sleep(2)
 capsLockOff()
-sleepRnd()
+time.sleep(2)
+paused = False
 
-#for j in range(0,len(commands) * 2):
-for j in range(len(commands)):
-    if kbd.led_on(Keyboard.LED_CAPS_LOCK):
-        print("CapsLock is ON. Stopping robot")
-        break
+while True:
+    try:
+        if paused:
+            if kbd.led_on(Keyboard.LED_CAPS_LOCK):
+                paused = False
+                print("-----------------")
+                print("Restarted program")
+                capsLockOff()
+                time.sleep(1)
+            else:
+                pausedLed()
+                
+        else:
 
-    blinkLed()
-    print("running %s minutes" % ((time.time() - startTime)/60) )
-    cmdindex = random.randrange(len(commands))
-    print("index: ", cmdindex)
-    print(str(commands[cmdindex]) + " - " + str(cmdindex))
-    commands[cmdindex]()
+            sleepRnd()
 
-    sleepRnd()
+            #for j in range(0,len(commands) * 2):
+            for j in range(len(commands)):
+                if kbd.led_on(Keyboard.LED_CAPS_LOCK):
+                    print("CAPS_LOCK ON: pause program")
+                    break
 
-runLastCommand()
-print("run for %s minutes" % ((time.time() - startTime)/60) )
-print("End autonomous robot")
-capsLockOn()
+                blinkLed()
+                print("running %s minutes" % ((time.time() - startTime)/60) )
+                cmdindex = random.randrange(len(commands))
+                print("index: ", cmdindex)
+                print(str(commands[cmdindex]) + " - " + str(cmdindex))
+                commands[cmdindex]()
 
-#while True:
-    #led.value = True
-    #print("on")
-    #time.sleep(10)
-    #led.value = False
-    #print("off")
-    #time.sleep(2)
+                sleepRnd()
+
+            runLastCommand()
+            print("run for %s minutes" % ((time.time() - startTime)/60) )
+            print("End cycle")
+            paused = True
+            print("paused... press CAPS_LOCK to restart")
+    
+    except Exception as e:
+        print("------------------------")
+        print(e)
+        paused = True
+        capsLockOff()
+        print("paused... press CAPS_LOCK to restart")
+        time.sleep(2)
+        
+
+
