@@ -20,6 +20,25 @@ led.direction = digitalio.Direction.OUTPUT
 
 time.sleep(1)
 
+class Blink:
+    
+    def __init__(self, periodOn, periodOff):
+        self.lastBlink = -1
+        self.periodOn = periodOn
+        self.periodOff = periodOff
+        
+    def blink(self):
+        now = time.monotonic()
+        if led.value:
+            if now > self.lastBlink + self.periodOn:
+                self.lastBlink = now
+                led.value = False
+        else:
+            if now > self.lastBlink + self.periodOff:
+                self.lastBlink = now
+                led.value = True
+        
+
 
 def blinkLed():
 
@@ -28,23 +47,6 @@ def blinkLed():
         time.sleep(0.2)
 
     led.value = False
-    
-def pausedLed():
-    led.value = False
-    time.sleep(0.2)
-    led.value = True
-    time.sleep(0.2)
-    led.value = False
-    time.sleep(0.2)
-    led.value = True
-    time.sleep(0.5)
-    led.value = False
-    time.sleep(0.2)
-    led.value = True
-    time.sleep(0.2)
-    led.value = False
-    time.sleep(0.2)
-    led.value = True
         
 
 def sleepRnd():
@@ -60,6 +62,7 @@ def sleepRnd():
     while time.monotonic() < sleepUntil:
         #print("sleeping...")
         if kbd.led_on(Keyboard.LED_CAPS_LOCK):
+            time.sleep(0.5)
             raise Exception("CAPS_LOCK ON: pause program")
         led.value = True
         time.sleep(.3)
@@ -413,6 +416,8 @@ capsLockOff()
 time.sleep(2)
 paused = False
 
+pausedBlink = Blink(2,5)
+
 while True:
     try:
         if paused:
@@ -423,7 +428,8 @@ while True:
                 capsLockOff()
                 time.sleep(1)
             else:
-                pausedLed()
+                pausedBlink.blink()
+                time.sleep(0.3)
                 
         else:
 
@@ -453,6 +459,7 @@ while True:
     except Exception as e:
         print("------------------------")
         print(e)
+        time.sleep(.5)
         paused = True
         capsLockOff()
         print("paused... press CAPS_LOCK to restart")
