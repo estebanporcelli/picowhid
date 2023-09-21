@@ -62,7 +62,7 @@ def sleepRnd():
     while time.monotonic() < sleepUntil:
         #print("sleeping...")
         if kbd.led_on(Keyboard.LED_CAPS_LOCK):
-            time.sleep(0.5)
+            time.sleep(0.3)
             raise Exception("CAPS_LOCK ON: pause program")
         led.value = True
         time.sleep(.3)
@@ -426,10 +426,10 @@ while True:
                 print("-----------------")
                 print("Restarted program")
                 capsLockOff()
-                time.sleep(1)
+                time.sleep(.3)
             else:
                 pausedBlink.blink()
-                time.sleep(0.3)
+                time.sleep(.3)
                 
         else:
 
@@ -459,11 +459,11 @@ while True:
     except Exception as e:
         print("------------------------")
         print(e)
-        time.sleep(.5)
+        time.sleep(.3)
         paused = True
         capsLockOff()
         print("paused... press CAPS_LOCK to restart")
-        time.sleep(2)
+        time.sleep(.3)
         
 
 
