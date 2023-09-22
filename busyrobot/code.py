@@ -64,10 +64,8 @@ def sleepRnd():
         if kbd.led_on(Keyboard.LED_CAPS_LOCK):
             time.sleep(0.3)
             raise Exception("CAPS_LOCK ON: pause program")
-        led.value = True
-        time.sleep(.3)
-        led.value = False
-        time.sleep(.3)
+        
+        sleepBlink.blink()
 
 
 def sleepShort():
@@ -130,12 +128,12 @@ def changeVirtualDesktop():
 
 
 def capsLockOff():
-    print("caps off")
+    print("caps: off")
     if kbd.led_on(Keyboard.LED_CAPS_LOCK):
         kbd.send(Keycode.CAPS_LOCK)
 
 def capsLockOn():
-    print("caps on")
+    print("caps: on")
     if not kbd.led_on(Keyboard.LED_CAPS_LOCK):
         kbd.send(Keycode.CAPS_LOCK)
 
@@ -390,7 +388,8 @@ urls = ["https://github.com/features/issues",
 "kubernetes hpa","kubernetes documentation"
 "harness ci","splunk","python","weblogic","jboss","websphere",
 "ibm mq documentation","linux","linux commands","oracle","oracle database","postgres db",
-"continuous integration","javascript","docker documentation","jira","confluence","vs code","intellij"]
+"continuous integration","javascript","docker documentation","jira","confluence","vs code","intellij",
+"jdbc","redhat","podman","eclipse ide","dynatrace","nfs share","aws s3","aws ec2","chatgpt","google bard"]
 
 commands = [ openVsCode, openVsCode, openVsCode, openVsCode, openChrome, openUrl, rightClick, altTab, wheel, mouseMove, runCommand, openShortCut, changeVirtualDesktop ]
 #commands = [ openVsCode ] # test single command
@@ -417,6 +416,7 @@ time.sleep(2)
 paused = False
 
 pausedBlink = Blink(2,5)
+sleepBlink = Blink(.3,.3)
 
 while True:
     try:
@@ -465,5 +465,4 @@ while True:
         print("paused... press CAPS_LOCK to restart")
         time.sleep(.3)
         
-
 
