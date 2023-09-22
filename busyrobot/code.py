@@ -425,6 +425,7 @@ while True:
                 paused = False
                 print("-----------------")
                 print("Restarted program")
+                time.sleep(.3)
                 capsLockOff()
                 time.sleep(.3)
             else:
